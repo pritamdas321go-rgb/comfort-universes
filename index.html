@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For Prapti 🌸 A Little Corner of the Universe</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Gaegu & Patrick Hand for genuine crayon doodle feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Patrick+Hand&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --crayon-stroke: #282433;
+      --pastel-pink: #ffd7e2;
+      --pastel-yellow: #fff3b0;
+      --pastel-mint: #c6f6d5;
+      --pastel-lavender: #e9d8fd;
+    }
+
+    * {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      background-color: #fdfaf6;
+      color: #2e2838;
+      user-select: none;
+    }
+
+    .font-doodle {
+      font-family: 'Gaegu', cursive;
+    }
+
+    .font-chubby {
+      font-family: 'Sniglet', cursive;
+    }
+
+    /* Hand-drawn wobbly borders & pastel shadows */
+    .doodle-card {
+      background: #ffffff;
+      border: 3.5px solid var(--crayon-stroke);
+      border-radius: 255px 18px 225px 22px/22px 225px 18px 255px;
+      box-shadow: 4px 6px 0px rgba(40, 36, 51, 0.92);
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .doodle-btn {
+      border: 3px solid var(--crayon-stroke);
+      border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+      box-shadow: 3px 4px 0px rgba(40, 36, 51, 0.9);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .doodle-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 4px 6px 0px rgba(40, 36, 51, 0.95);
+    }
+    .doodle-btn:active {
+      transform: translateY(2px) scale(0.97);
+      box-shadow: 1px 2px 0px rgba(40, 36, 51, 0.9);
+    }
+
+    /* Pastel Yellow Crayon Spiral Texture */
+    .crayon-spiral-bg {
+      background-color: #fffdec;
+      background-image: 
+        radial-gradient(circle at 50% 50%, #fff2a3 2px, transparent 2px),
+        radial-gradient(circle at 20% 30%, #ffe3ea 1.5px, transparent 1.5px),
+        radial-gradient(circle at 80% 70%, #d8f3dc 2px, transparent 2px);
+      background-size: 32px 32px, 24px 24px, 40px 40px;
+    }
+
+    @keyframes gentleSquish {
+      0%, 100% { transform: scale(1, 1); }
+      50% { transform: scale(1.04, 0.96) translateY(2px); }
+    }
+    .idle-squish {
+      animation: gentleSquish 3s ease-in-out infinite;
+    }
+
+    @keyframes popParticle {
+      0% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+      50% { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(1.2); }
+      100% { opacity: 0; transform: translate(calc(var(--tx) * 1.3), calc(var(--ty) * 1.5 - 20px)) scale(0.6); }
+    }
+    .particle-pop {
+      position: absolute;
+      pointer-events: none;
+      animation: popParticle 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+      z-index: 999;
+    }
+
+    @keyframes stampBounce {
+      0% { transform: scale(2.5) rotate(-20deg); opacity: 0; }
+      70% { transform: scale(0.9) rotate(5deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+    }
+    .stamp-anim {
+      animation: stampBounce 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards;
+    }
+
+    .nav-pill.active {
+      background-color: #ffd7e2 !important;
+      border-color: #282433 !important;
+      box-shadow: 2px 3px 0px #282433 !important;
+      font-weight: 800;
+    }
+
+    .lined-notepad {
+      background-color: #fffdf7;
+      background-image: repeating-linear-gradient(transparent, transparent 28px, #fae2cc 28px, #fae2cc 30px);
+      line-height: 30px;
+    }
+  </style>
+</head>
+<body class="crayon-spiral-bg min-h-screen text-slate-800 flex flex-col items-center">
+
+  <!-- Mobile Screen Container (Constrained width for phone simulation on desktop, 100% on mobile) -->
+  <div class="w-full max-w-[440px] min-h-screen flex flex-col justify-between shadow-2xl bg-[#fffefc]/90 border-x-0 sm:border-x-4 border-[#282433] relative overflow-hidden">
+    
+    <!-- Top Mobile Sticky Header -->
+    <header class="sticky top-0 z-50 bg-[#fffdf9]/95 backdrop-blur-md px-3 py-2.5 border-b-3 border-[#282433]">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="text-xl">🌸</span>
+          <span class="font-doodle text-xl font-bold tracking-wide text-pink-700">prapti's universe</span>
+        </div>
+        
+        <button id="musicToggleBtn" class="doodle-btn bg-pink-100 hover:bg-pink-200 px-2 py-1 text-xs font-bold font-doodle flex items-center gap-1">
+          <span id="musicIcon">🎵</span>
+          <span id="musicLabel">BGM</span>
+        </button>
+      </div>
+
+      <!-- Scrollable Tab Pills for Easy Thumb Tap -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 pb-0.5 justify-start px-0.5">
+        <button data-tab="meadow" class="nav-pill active doodle-btn bg-white px-2.5 py-1 text-xs font-doodle whitespace-nowrap">
+          🌿 Meadow
+        </button>
+        <button data-tab="hype" class="nav-pill doodle-btn bg-white px-2.5 py-1 text-xs font-doodle whitespace-nowrap">
+          👑 Hype Vault
+        </button>
+        <button data-tab="draw" class="nav-pill doodle-btn bg-white px-2.5 py-1 text-xs font-doodle whitespace-nowrap">
+          🎨 Draw Duel
+        </button>
+        <button data-tab="kitty" class="nav-pill doodle-btn bg-white px-2.5 py-1 text-xs font-doodle whitespace-nowrap">
+          🐱 Kitty Lab
+        </button>
+        <button data-tab="wishes" class="nav-pill doodle-btn bg-white px-2.5 py-1 text-xs font-doodle whitespace-nowrap">
+          🎁 Unbox & Stars
+        </button>
+      </nav>
+    </header>
+
+    <!-- MAIN APP CONTENT (PAGE PANELS) -->
+    <main class="p-3.5 flex-grow flex flex-col gap-6">
+
+      <!-- ============================================== -->
+      <!-- SECTION 1: 🌿 THE MEADOW & STORYBOOK -->
+      <!-- ============================================== -->
+      <section id="tab-meadow" class="tab-view flex flex-col gap-5">
+        
+        <!-- Welcome Hero -->
+        <div class="doodle-card p-5 bg-gradient-to-b from-[#fff6ed] to-[#fff0db] text-center relative overflow-hidden">
+          <div class="inline-block bg-[#ffebf2] border-2 border-[#282433] rounded-full px-3 py-0.5 text-xs font-doodle font-bold text-pink-800 mb-2">
+            ✨ Certified Comfort Zone ✨
+          </div>
+          <h1 class="text-2xl font-bold font-doodle text-[#2b243b] leading-tight mb-2">
+            A Quiet Corner In The Universe, Made For Prapti!
+          </h1>
+          <p class="font-note text-base text-slate-600 leading-snug">
+            "Whenever the world gets too busy, this little page is here for you. You're my favorite human, certified savior, and absolute joy!"
+          </p>
+
+          <!-- Interactive Squishy Hero Cat -->
+          <div class="relative w-40 h-40 mx-auto mt-3 cursor-pointer group" id="heroCatArea">
+            <svg id="heroCatSvg" class="w-full h-full idle-squish drop-shadow-sm transition-transform" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="75" fill="#fde68a" opacity="0.6" stroke="#282433" stroke-width="2.5" stroke-dasharray="6,4" />
+              <!-- Cat Body & Head matching artwork -->
+              <path d="M 68 115 C 60 125, 58 152, 70 162 C 85 168, 115 168, 130 162 C 142 152, 140 125, 132 115 Z" fill="#ffffff" stroke="#282433" stroke-width="4.5" stroke-linejoin="round" />
+              <path d="M 135 145 C 160 148, 165 130, 155 120 C 150 115, 142 125, 140 135" fill="#ffffff" stroke="#282433" stroke-width="4.5" stroke-linecap="round" />
+              <path d="M 60 120 C 50 100, 52 75, 54 62 C 62 60, 78 80, 92 84 C 108 80, 122 60, 136 62 C 138 75, 140 100, 130 120 C 115 130, 75 130, 60 120 Z" fill="#ffffff" stroke="#282433" stroke-width="4.5" stroke-linejoin="round" />
+              <!-- Cheeks & Whiskers -->
+              <ellipse cx="68" cy="104" rx="8" ry="4.5" fill="#ff9ebb" opacity="0.8" />
+              <ellipse cx="122" cy="104" rx="8" ry="4.5" fill="#ff9ebb" opacity="0.8" />
+              <path d="M 52 100 L 40 98 M 52 106 L 38 108 M 138 100 L 150 98 M 138 106 L 152 108" stroke="#282433" stroke-width="3" stroke-linecap="round" />
+              <!-- Eyes & Open Mouth -->
+              <path d="M 68 94 Q 78 88 84 94 Q 78 98 68 94 Z" fill="#282433" />
+              <path d="M 106 94 Q 112 88 122 94 Q 112 98 106 94 Z" fill="#282433" />
+              <path d="M 90 102 C 88 112, 102 112, 100 102 Z" fill="#fca5a5" stroke="#282433" stroke-width="3" />
+              <ellipse cx="82" cy="158" rx="8" ry="6" fill="#ffffff" stroke="#282433" stroke-width="3" />
+              <ellipse cx="108" cy="158" rx="8" ry="6" fill="#ffffff" stroke="#282433" stroke-width="3" />
+            </svg>
+            <span class="block text-[11px] font-doodle font-bold text-pink-700 bg-white/90 border border-[#282433] rounded-full py-0.5 px-2 mt-1 mx-auto max-w-fit shadow-xs">
+              👉 Tap kitty for squish & purr!
+            </span>
+          </div>
+
+          <div class="flex justify-center gap-2 mt-4">
+            <button id="warmPetBtn" class="doodle-btn bg-amber-200 px-3.5 py-1 text-sm font-doodle font-bold">
+              🐾 Warm Pat
+            </button>
+            <button id="sparklePopBtn" class="doodle-btn bg-pink-200 px-3.5 py-1 text-sm font-doodle font-bold">
+              ✨ Stardust
+            </button>
+          </div>
+        </div>
+
+        <!-- Duo Meadow Cats (Touch Paws Interaction) -->
+        <div class="doodle-card p-4 bg-gradient-to-b from-[#ffdbe5]/40 to-[#c1f0d0]/40">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">🌿</span>
+            <h3 class="font-doodle text-xl font-bold text-slate-800">Two Cats in the Meadow</h3>
+          </div>
+          <p class="font-note text-sm text-slate-600 mb-3 leading-snug">
+            Look at these two goofy cats chilling together—it's literally us! Having you as a best friend makes everything 10x funnier and softer.
+          </p>
+
+          <div id="duoCatBox" class="bg-gradient-to-b from-pink-200/50 to-emerald-200/50 rounded-xl border-2 border-[#282433] p-2 text-center cursor-pointer select-none">
+            <div class="text-[11px] font-doodle font-bold text-pink-800 mb-1">
+              ✨ Tap to make them touch paws! ✨
+            </div>
+            <svg id="duoCatSvg" class="w-full h-36 mx-auto" viewBox="0 0 280 150">
+              <rect x="0" y="90" width="280" height="60" fill="#bbf7d0" opacity="0.7"/>
+              <text x="15" y="115" font-size="12">🌸</text>
+              <text x="40" y="135" font-size="12">🌼</text>
+              <text x="235" y="125" font-size="12">🌸</text>
+
+              <!-- Left Cat -->
+              <g id="duoLeftCat" class="transition-transform duration-300">
+                <path d="M 75 95 C 65 110, 65 125, 75 135 C 85 140, 102 140, 108 132 C 114 122, 114 105, 107 95 Z" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <path d="M 68 95 C 58 82, 59 66, 62 56 C 71 56, 84 69, 93 72 C 102 69, 111 59, 120 59 C 122 69, 120 84, 114 95 C 102 102, 79 102, 68 95 Z" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <ellipse cx="76" cy="84" rx="5" ry="3" fill="#f472b6" />
+                <path d="M 74 77 Q 77 72 81 77 M 94 77 Q 97 72 101 77" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 85 82 Q 88 86 91 82" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 104 105 Q 120 103 133 100" stroke="#282433" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+
+              <!-- Right Cat -->
+              <g id="duoRightCat" class="transition-transform duration-300">
+                <path d="M 175 95 C 168 105, 170 122, 175 132 C 181 138, 198 138, 207 134 C 215 125, 215 108, 207 95 Z" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <path d="M 164 95 C 158 84, 155 69, 158 59 C 166 59, 175 69, 183 72 C 192 69, 205 56, 213 56 C 217 66, 217 82, 209 95 C 198 102, 175 102, 164 95 Z" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <ellipse cx="203" cy="84" rx="5" ry="3" fill="#f472b6" />
+                <path d="M 177 77 Q 180 72 184 77 M 196 77 Q 200 72 204 77" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 186 82 Q 189 85 192 82 Q 195 85 198 82" stroke="#282433" stroke-width="1.8" fill="none" />
+                <path d="M 172 105 Q 158 103 145 100" stroke="#282433" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+
+              <!-- Sparkle on touch -->
+              <g id="pawsSparkle" opacity="0" class="transition-opacity duration-300">
+                <text x="130" y="96" font-size="16">💖</text>
+                <text x="120" y="70" font-size="12">✨</text>
+              </g>
+            </svg>
+            <div id="pawStatusMsg" class="font-note text-xs text-pink-700 font-bold mt-1">
+              "Two cats simply happy to share the same meadow."
+            </div>
+          </div>
+        </div>
+
+        <!-- The Daydreaming Blob Card -->
+        <div class="doodle-card p-4 bg-white">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">💭</span>
+            <h3 class="font-doodle text-xl font-bold text-slate-800">The Ultimate Comfort Human</h3>
+          </div>
+          <p class="font-note text-sm text-slate-700 leading-relaxed mb-3">
+            Some people make the whole world feel less chaotic just by existing. You're that person for me. Talking to you is like sitting in warm sunshine with cold sweet tea. 🌻
+          </p>
+
+          <!-- Dreamer Blob SVG matching 80928.jpg -->
+          <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl border-2 border-[#282433] p-3 text-center">
+            <svg class="w-full h-32 mx-auto" viewBox="0 0 220 140">
+              <!-- Thought Bubble -->
+              <path d="M 40 40 C 30 15, 80 8, 110 15 C 145 3, 190 20, 180 45 C 195 62, 160 75, 130 68 C 110 80, 50 72, 40 40 Z" fill="#ffffff" stroke="#282433" stroke-width="2.5" />
+              <circle cx="105" cy="82" r="4" fill="#ffffff" stroke="#282433" stroke-width="2" />
+              <circle cx="100" cy="92" r="2.5" fill="#ffffff" stroke="#282433" stroke-width="1.8" />
+              
+              <!-- Friends inside thought bubble -->
+              <g transform="translate(62, 18) scale(0.55)">
+                <circle cx="35" cy="30" r="16" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <ellipse cx="28" cy="33" rx="4" ry="2.5" fill="#ffaec9" />
+                <ellipse cx="42" cy="33" rx="4" ry="2.5" fill="#ffaec9" />
+                <path d="M 31 32 Q 35 36 39 32" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 20 48 C 20 75, 48 75, 48 48" fill="#ffffff" stroke="#282433" stroke-width="3" />
+
+                <circle cx="85" cy="30" r="16" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <ellipse cx="78" cy="33" rx="4" ry="2.5" fill="#ffaec9" />
+                <ellipse cx="92" cy="33" rx="4" ry="2.5" fill="#ffaec9" />
+                <path d="M 81 32 Q 85 36 89 32" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 70 48 C 70 75, 98 75, 98 48" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                
+                <path d="M 44 54 Q 60 62 76 54" stroke="#282433" stroke-width="3" fill="none" />
+                <text x="54" y="50" font-size="12">✨</text>
+              </g>
+
+              <!-- Blob lying on belly kicking legs -->
+              <g transform="translate(55, 85) scale(0.72)">
+                <path d="M 20 35 Q 10 20 18 8 Q 24 20 25 30" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <path d="M 28 37 Q 22 18 30 10 Q 35 20 34 33" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <path d="M 20 35 C 35 48, 85 48, 100 35 C 100 28, 80 26, 60 26 C 35 26, 25 28, 20 35 Z" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <circle cx="95" cy="20" r="16" fill="#ffffff" stroke="#282433" stroke-width="3" />
+                <path d="M 87 16 L 92 20 L 87 23" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 103 16 L 98 20 L 103 23" stroke="#282433" stroke-width="2" fill="none" />
+                <path d="M 92 22 Q 95 25 98 22" stroke="#282433" stroke-width="2" fill="none" />
+                <ellipse cx="86" cy="30" rx="4" ry="3" fill="#ffffff" stroke="#282433" stroke-width="2" />
+                <ellipse cx="104" cy="30" rx="4" ry="3" fill="#ffffff" stroke="#282433" stroke-width="2" />
+              </g>
+            </svg>
+            <div class="text-[11px] font-doodle font-bold text-slate-500 mt-1">
+              "Kicking my feet every time we talk and share goofy art"
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- SECTION 2: 👑 THE ULTIMATE HYPE VAULT -->
+      <!-- ============================================== -->
+      <section id="tab-hype" class="tab-view hidden flex flex-col gap-5">
+        
+        <!-- Header Banner -->
+        <div class="doodle-card p-5 bg-gradient-to-r from-amber-100 via-pink-100 to-purple-100 text-center relative">
+          <span class="inline-block bg-yellow-300 border-2 border-[#282433] rounded-full px-3 py-0.5 text-xs font-doodle font-bold mb-2">
+            👑 Undisputed Cosmic Fact 👑
+          </span>
+          <h2 class="text-2xl font-doodle font-bold text-[#2a2238] leading-tight mb-2">
+            The Prettiest Girl & Greatest Artist In The Multiverse
+          </h2>
+          <p class="font-note text-sm text-slate-700 leading-snug">
+            Your superpower isn't just your unmatched doodle aesthetic—it's that you are certified the prettiest to ever walk this planet. Here are 10 cold, objective facts:
+          </p>
+        </div>
+
+        <!-- Interactive 10-Fact Flipper Card -->
+        <div class="doodle-card p-5 bg-[#fffef9] flex flex-col items-center text-center relative overflow-hidden">
+          <div class="w-full flex justify-between items-center text-xs font-doodle font-bold text-slate-500 mb-3 border-b-2 border-dashed border-amber-200 pb-1.5">
+            <span>FACT <span id="hypeCardNum" class="text-pink-600 text-base">1</span> / 10</span>
+            <span class="text-amber-600">Swipe or tap next! 🌟</span>
+          </div>
+
+          <div id="hypeCardContent" class="min-h-[110px] flex items-center justify-center p-2 text-center transition-all duration-200">
+            <p id="hypeCardText" class="font-note text-xl text-slate-800 leading-snug font-bold">
+              "You eat 100 Leonardo da Vincis for breakfast and don't even need a glass of water."
+            </p>
+          </div>
+
+          <!-- Flip Controls -->
+          <div class="flex items-center gap-3 mt-4 w-full">
+            <button id="prevHypeBtn" class="doodle-btn flex-1 bg-yellow-100 hover:bg-yellow-200 py-2 font-doodle font-bold text-sm">
+              ⬅️ Prev Fact
+            </button>
+            <button id="nextHypeBtn" class="doodle-btn flex-1 bg-pink-200 hover:bg-pink-300 py-2 font-doodle font-bold text-sm">
+              Next Fact ➡️
+            </button>
+          </div>
+
+          <!-- Quick list accordion toggle -->
+          <button id="toggleAllHypeBtn" class="mt-4 text-xs font-doodle font-bold text-pink-700 underline">
+            📜 View all 10 facts at once
+          </button>
+
+          <div id="allHypeList" class="hidden w-full mt-4 text-left space-y-2 border-t-2 border-dashed border-pink-200 pt-3">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Official Fanclub Certificate & Interactive Stamp -->
+        <div class="doodle-card p-4 bg-gradient-to-b from-amber-50 to-orange-50 relative overflow-hidden text-center">
+          <div class="text-xs font-doodle font-bold text-amber-800 uppercase tracking-wider mb-1">Lifetime Official Certificate</div>
+          <h4 class="font-doodle text-xl font-bold text-slate-800 mb-1">President of the Prapti Fan Club</h4>
+          <p class="font-note text-xs text-slate-600 mb-3">
+            Issued to you for being the sweetest, funniest, most brilliant creative mind. Forever your #1 hype man!
+          </p>
+
+          <div class="flex justify-center my-2">
+            <button id="stampSealBtn" class="doodle-btn bg-rose-200 hover:bg-rose-300 text-rose-950 font-doodle font-bold text-sm px-4 py-1.5 flex items-center gap-1.5">
+              <span>💮</span> Tap To Stamp Official Approval
+            </button>
+          </div>
+
+          <div id="stampArea" class="h-14 flex items-center justify-center">
+            <div id="stampBadge" class="hidden text-pink-800 border-3 border-pink-700 bg-pink-100/90 px-3 py-1 rounded-xl font-doodle text-base font-extrabold rotate-[-4deg] shadow-sm">
+              👑 CERTIFIED 1000% ICONIC & PRETTY 👑
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- SECTION 3: 🎨 DRAW DUEL (5-LEVEL ACCURACY TEST) -->
+      <!-- ============================================== -->
+      <section id="tab-draw" class="tab-view hidden flex flex-col gap-4">
+        
+        <div class="doodle-card p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 text-center">
+          <div class="inline-block bg-emerald-200 border-2 border-[#282433] rounded-full px-2.5 py-0.5 text-xs font-doodle font-bold mb-1">
+            🎨 Prapti's Masterpiece Challenge
+          </div>
+          <h2 class="text-2xl font-doodle font-bold text-slate-800">Drawing Accuracy Test!</h2>
+          <p class="font-note text-xs text-slate-600">
+            Can anyone match Prapti's God-tier hand? Trace or replicate each character on the canvas below to test your precision!
+          </p>
+        </div>
+
+        <!-- Level Selector Chips -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <button data-level="0" class="draw-lvl-btn doodle-btn bg-pink-200 px-2.5 py-1 text-xs font-doodle font-bold whitespace-nowrap active-level">
+            Lvl 1: Kitty
+          </button>
+          <button data-level="1" class="draw-lvl-btn doodle-btn bg-white px-2.5 py-1 text-xs font-doodle font-bold whitespace-nowrap">
+            Lvl 2: Blob Guy
+          </button>
+          <button data-level="2" class="draw-lvl-btn doodle-btn bg-white px-2.5 py-1 text-xs font-doodle font-bold whitespace-nowrap">
+            Lvl 3: Duo Paws
+          </button>
+          <button data-level="3" class="draw-lvl-btn doodle-btn bg-white px-2.5 py-1 text-xs font-doodle font-bold whitespace-nowrap">
+            Lvl 4: Star & Cloud
+          </button>
+          <button data-level="4" class="draw-lvl-btn doodle-btn bg-white px-2.5 py-1 text-xs font-doodle font-bold whitespace-nowrap">
+            Lvl 5: Sassy Queen
+          </button>
+        </div>
+
+        <!-- Drawing Canvas Area -->
+        <div class="doodle-card p-3 bg-white flex flex-col gap-2">
+          
+          <div class="flex justify-between items-center text-xs font-doodle font-bold px-1">
+            <span id="targetCharTitle" class="text-slate-700 text-sm">Target: The Signature Kitty</span>
+            <span class="text-pink-600">Use finger / mouse to draw! ✏️</span>
+          </div>
+
+          <!-- Canvas Container with Template Overlay -->
+          <div class="relative w-full h-72 rounded-2xl border-3 border-[#282433] bg-[#fffef7] overflow-hidden select-none touch-none">
+            
+            <!-- Reference Silhouette Template (Drawn as SVG background) -->
+            <div id="canvasTemplateGuide" class="absolute inset-0 pointer-events-none opacity-30 flex items-center justify-center p-4">
+              <!-- SVG template injected by JS per level -->
+            </div>
+
+            <!-- Actual Drawing Canvas -->
+            <canvas id="accuracyCanvas" class="w-full h-full block cursor-crosshair relative z-10"></canvas>
+          </div>
+
+          <!-- Drawing Tools & Grading Buttons -->
+          <div class="flex items-center justify-between gap-1.5 pt-1">
+            <div class="flex items-center gap-1">
+              <button id="clearCanvasBtn" class="doodle-btn bg-amber-100 hover:bg-amber-200 px-2.5 py-1 text-xs font-doodle font-bold">
+                🧹 Clear
+              </button>
+              <button id="toggleGuideBtn" class="doodle-btn bg-sky-100 hover:bg-sky-200 px-2.5 py-1 text-xs font-doodle font-bold">
+                👁️ Hint Guide
+              </button>
+            </div>
+
+            <button id="gradeDrawingBtn" class="doodle-btn bg-pink-300 hover:bg-pink-400 px-3.5 py-1.5 text-xs font-doodle font-bold text-pink-950 flex items-center gap-1">
+              <span>⭐</span> Grade My Art!
+            </button>
+          </div>
+
+          <!-- Grade Evaluation Banner Result -->
+          <div id="gradeResultBox" class="hidden mt-2 p-3 rounded-xl border-2 border-[#282433] bg-gradient-to-r from-pink-100 to-yellow-100 text-center">
+            <div class="text-2xl font-doodle font-bold text-pink-700" id="gradeScoreText">
+              ACCURACY: 99.8% 🔥
+            </div>
+            <p id="gradeFeedbackText" class="font-note text-xs text-slate-700 font-bold mt-1">
+              "LOUVRE APPROVED! Da Vinci just surrendered his brushes."
+            </p>
+            <button id="nextLevelUnlockBtn" class="mt-2 doodle-btn bg-emerald-200 px-3 py-1 text-xs font-doodle font-bold">
+              Next Character ➡️
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- SECTION 4: 🐱 KITTY LAB & HEADPAT GAME -->
+      <!-- ============================================== -->
+      <section id="tab-kitty" class="tab-view hidden flex flex-col gap-5">
+        
+        <!-- Mood Changer Lab -->
+        <div class="doodle-card p-4 bg-[#fffaf5] text-center">
+          <div class="flex items-center justify-center gap-1 text-pink-700 font-doodle font-bold text-sm mb-1">
+            <span>🐾</span> Reaction Lab
+          </div>
+          <h3 class="text-xl font-doodle font-bold text-slate-800 mb-1">Morph Kitty's Emotion!</h3>
+          <p class="font-note text-xs text-slate-500 mb-3">Tap any mood button to transform the doodle cat:</p>
+
+          <div class="flex flex-wrap justify-center gap-1.5 mb-4">
+            <button class="mood-pill doodle-btn bg-pink-200 px-2.5 py-1 font-doodle text-xs font-bold active" data-mood="happy">
+              🥰 Happy
+            </button>
+            <button class="mood-pill doodle-btn bg-amber-100 px-2.5 py-1 font-doodle text-xs font-bold" data-mood="sassy">
+              😼 Sassy
+            </button>
+            <button class="mood-pill doodle-btn bg-sky-100 px-2.5 py-1 font-doodle text-xs font-bold" data-mood="sleepy">
+              😴 Sleepy
+            </button>
+            <button class="mood-pill doodle-btn bg-purple-100 px-2.5 py-1 font-doodle text-xs font-bold" data-mood="gasp">
+              😱 Gasp!
+            </button>
+            <button class="mood-pill doodle-btn bg-rose-100 px-2.5 py-1 font-doodle text-xs font-bold" data-mood="melty">
+              🫠 Melty
+            </button>
+          </div>
+
+          <!-- Morphing SVG Cat Container -->
+          <div id="labCatDisplay" class="w-36 h-36 mx-auto doodle-card bg-amber-50/60 flex items-center justify-center p-2 cursor-pointer">
+            <svg id="labCatSvg" class="w-full h-full" viewBox="0 0 160 160">
+              <path id="labCatHead" d="M 40 100 C 30 80, 32 55, 36 45 C 44 42, 60 62, 74 65 C 88 62, 104 42, 112 45 C 116 55, 118 80, 108 100 C 95 110, 55 110, 40 100 Z" fill="#ffffff" stroke="#282433" stroke-width="4" stroke-linejoin="round"/>
+              <ellipse id="labBlushL" cx="50" cy="88" rx="7" ry="4" fill="#f472b6" opacity="0.8"/>
+              <ellipse id="labBlushR" cx="98" cy="88" rx="7" ry="4" fill="#f472b6" opacity="0.8"/>
+              <path d="M 35 84 L 22 82 M 35 90 L 20 92 M 113 84 L 126 82 M 113 90 L 128 92" stroke="#282433" stroke-width="3" stroke-linecap="round"/>
+              
+              <!-- Face Details injected by JS -->
+              <g id="labFaceGroup">
+                <path d="M 52 78 Q 60 72 68 78 Q 60 82 52 78 Z" fill="#282433" />
+                <path d="M 80 78 Q 88 72 96 78 Q 88 82 80 78 Z" fill="#282433" />
+                <path d="M 70 85 C 68 93, 80 93, 78 85 Z" fill="#fca5a5" stroke="#282433" stroke-width="2.5"/>
+              </g>
+            </svg>
+          </div>
+
+          <p id="labMoodSubtitle" class="font-note text-sm text-pink-700 font-bold mt-2">
+            "Purring peacefully! Feeling completely adored."
+          </p>
+        </div>
+
+        <!-- NEW MINI-GAME: POKE-A-KITTY HEADPAT SPEED GAME -->
+        <div class="doodle-card p-4 bg-white text-center">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <h4 class="font-doodle text-lg font-bold text-slate-800 flex items-center gap-1">
+                <span>🎯</span> Poke-A-Kitty Headpat!
+              </h4>
+              <p class="font-note text-xs text-slate-500">Tap the popping cat for instant love points!</p>
+            </div>
+            <div class="bg-yellow-100 border-2 border-[#282433] px-2.5 py-0.5 rounded-full text-xs font-doodle font-bold">
+              Pats: <span id="patScoreCount" class="text-pink-700 text-sm">0</span>
+            </div>
+          </div>
+
+          <!-- 3x2 Meadow Bush Holes -->
+          <div class="grid grid-cols-3 gap-2.5 bg-gradient-to-b from-sky-50 to-emerald-50 p-3 rounded-2xl border-2 border-[#282433] mt-2">
+            
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="0">
+              <span class="text-base mb-1">🌿</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="1">
+              <span class="text-base mb-1">🌸</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="2">
+              <span class="text-base mb-1">🌿</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="3">
+              <span class="text-base mb-1">🌼</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="4">
+              <span class="text-base mb-1">🌿</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+            <div class="bush-hole relative h-20 bg-emerald-200/60 rounded-xl border-2 border-[#282433] overflow-hidden flex items-end justify-center cursor-pointer" data-hole="5">
+              <span class="text-base mb-1">🌷</span>
+              <div class="pop-cat absolute bottom-[-55px] transition-all duration-150 text-2xl select-none">🐱</div>
+            </div>
+
+          </div>
+
+          <div class="mt-3 flex justify-center">
+            <button id="startPatGameBtn" class="doodle-btn bg-emerald-200 hover:bg-emerald-300 font-doodle text-xs font-bold px-4 py-1.5">
+              ▶ Start 20s Pat Frenzy!
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- SECTION 5: 🎁 UNBOX & STAR WISHES -->
+      <!-- ============================================== -->
+      <section id="tab-wishes" class="tab-view hidden flex flex-col gap-5">
+        
+        <!-- Tap-To-Unbox Mystery Parcel -->
+        <div class="doodle-card p-5 bg-gradient-to-b from-purple-50 to-pink-50 text-center relative overflow-hidden">
+          <div class="inline-block bg-purple-200 border-2 border-[#282433] rounded-full px-3 py-0.5 text-xs font-doodle font-bold mb-2">
+            🎁 Special Delivery for Prapti
+          </div>
+          <h3 class="text-2xl font-doodle font-bold text-slate-800 mb-1">Tap to Unwrap!</h3>
+          <p class="font-note text-xs text-slate-600 mb-3">
+            Peel tape, untie the ribbon, and open your surprise!
+          </p>
+
+          <div class="relative w-44 h-44 mx-auto cursor-pointer" id="unboxContainer">
+            <div id="unboxBadge" class="absolute -top-2 left-1/2 -translate-x-1/2 bg-yellow-200 border-2 border-[#282433] text-[10px] font-bold font-doodle px-2 py-0.5 rounded-full z-20 whitespace-nowrap shadow-xs">
+              Tap 3 times to unwrap! (3 left)
+            </div>
+
+            <!-- Hand-drawn Gift SVG -->
+            <svg id="giftBoxSvg" class="w-full h-full drop-shadow-md transition-transform" viewBox="0 0 200 200">
+              <rect x="40" y="80" width="120" height="90" rx="8" fill="#fed7aa" stroke="#282433" stroke-width="4.5" />
+              <path id="giftLid" d="M 32 70 L 168 70 C 172 70, 175 75, 172 80 L 165 86 L 35 86 L 28 80 C 25 75, 28 70, 32 70 Z" fill="#fdba74" stroke="#282433" stroke-width="4.5" />
+              <rect x="90" y="70" width="20" height="100" fill="#f43f5e" stroke="#282433" stroke-width="3" />
+              <g id="giftBow">
+                <ellipse cx="85" cy="58" rx="16" ry="10" fill="#fb7185" stroke="#282433" stroke-width="3.5" transform="rotate(-25 85 58)"/>
+                <ellipse cx="115" cy="58" rx="16" ry="10" fill="#fb7185" stroke="#282433" stroke-width="3.5" transform="rotate(25 115 58)"/>
+                <circle cx="100" cy="62" r="8" fill="#e11d48" stroke="#282433" stroke-width="3"/>
+              </g>
+              <rect id="giftTape" x="50" y="115" width="100" height="18" rx="4" fill="#fef08a" stroke="#282433" stroke-width="2.5" opacity="0.95" stroke-dasharray="4,2"/>
+            </svg>
+          </div>
+
+          <!-- Unboxed Reveal Card -->
+          <div id="unboxedPassCard" class="hidden mt-4 p-4 doodle-card bg-white text-left">
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="text-xl">🏆</span>
+              <h4 class="font-doodle text-lg font-bold text-pink-700">VIP Pass: Prapti Admiration Society</h4>
+            </div>
+            <div class="font-note text-xs text-slate-700 space-y-1.5 border-l-3 border-pink-400 pl-2.5">
+              <p>🌟 <strong>Holder:</strong> Prapti (Prettiest Girl & Art Queen)</p>
+              <p>✨ <strong>Privileges:</strong> Infinite warmth, first access to praise, and guaranteed smiles whenever needed.</p>
+              <p class="font-bold text-purple-700 font-doodle text-sm">"Keep creating. The world needs your drawings!"</p>
+            </div>
+            <div class="mt-3 text-center">
+              <button id="resetGiftBtn" class="doodle-btn bg-yellow-200 px-3 py-1 text-xs font-doodle font-bold">
+                🎁 Re-seal Box
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Star Wish Jar -->
+        <div class="doodle-card p-4 bg-[#fffef5] relative">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xl">⭐</span>
+            <h3 class="font-doodle text-xl font-bold text-slate-800">The Safe Harbor Star Jar</h3>
+          </div>
+          <p class="font-note text-xs text-slate-600 mb-3">
+            Origami stars filled with quiet wishes for your drawings, dreams, and soft days.
+          </p>
+
+          <div class="flex items-center gap-3 bg-pink-50/70 p-3 rounded-2xl border-2 border-[#282433]">
+            <div id="luckyJarArea" class="cursor-pointer text-center group">
+              <svg class="w-20 h-24 mx-auto group-hover:scale-105 transition-transform" viewBox="0 0 100 120">
+                <rect x="25" y="10" width="50" height="12" rx="4" fill="#fed7aa" stroke="#282433" stroke-width="3" />
+                <path d="M 22 22 L 78 22" stroke="#282433" stroke-width="3" />
+                <path d="M 24 24 C 10 32, 10 90, 16 105 C 22 115, 78 115, 84 105 C 90 90, 90 32, 76 24 Z" fill="#ffffff" stroke="#282433" stroke-width="3.5" fill-opacity="0.85" />
+                <text x="35" y="60" font-size="14">⭐</text>
+                <text x="50" y="85" font-size="16">🌟</text>
+                <text x="30" y="95" font-size="12">✨</text>
+                <text x="55" y="65" font-size="13">🌸</text>
+              </svg>
+              <span class="text-[10px] font-doodle font-bold text-pink-700 underline block mt-0.5">
+                Tap to Draw ⭐
+              </span>
+            </div>
+
+            <div class="flex-1">
+              <div id="wishNoteBox" class="bg-white p-3 rounded-xl border-2 border-[#282433] min-h-[75px] flex items-center justify-center text-center">
+                <p id="wishNoteContent" class="font-note text-xs text-slate-800 leading-snug">
+                  🌟 "May your sketchbook always be full of whimsical, wonderful drawings, and may you never doubt how deeply talented you are."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lined Keepsake Message -->
+          <div class="lined-notepad p-4 rounded-xl border-2 border-[#282433] mt-4 relative">
+            <div class="absolute -top-3 right-4 bg-pink-100 border-2 border-[#282433] px-2 py-0.5 rounded text-[10px] font-doodle font-bold text-pink-800">
+              Keepsake Note 🕊️
+            </div>
+            <h4 class="font-doodle text-base font-bold text-slate-800 mb-1">Always Cheering For You!</h4>
+            <p class="font-note text-xs text-slate-700 leading-relaxed">
+              I just wanted you to have your very own cozy corner of the internet. Whenever you need a reminder of how insanely talented, hilarious, and genuinely precious you are, pop in here. 
+            </p>
+            <p class="font-note text-xs text-pink-700 font-bold mt-2 text-right">
+              — Forever your #1 hype man and biggest fan! 🌻✨
+            </p>
+          </div>
+
+          <!-- Sky Lantern Release -->
+          <div class="mt-4 text-center">
+            <button id="sendSkyLanternBtn" class="doodle-btn bg-rose-200 hover:bg-rose-300 text-rose-950 font-doodle text-sm font-bold px-4 py-2">
+              🏮 Release a sky lantern for good days ahead
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Mobile Footer -->
+    <footer class="py-4 text-center text-[11px] text-slate-500 font-note border-t border-amber-200/80 bg-white/60">
+      <p>Handcrafted with pastel crayons, soft melody notes & quiet smiles.</p>
+      <p class="text-slate-400 mt-0.5">Prapti's Universe 🌸 Forever Iconic.</p>
+    </footer>
+
+  </div>
+
+  <!-- Fullscreen Sky Lanterns Overlay -->
+  <div id="skyOverlay" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    /* =========================================================
+       1. SYNTHESIZED BGM & AUDIO EFFECTS (Web Audio API)
+       ========================================================= */
+    let audioCtx = null;
+    let isPlayingBGM = false;
+    let bgmTimer = null;
+
+    const pentatonicNotes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playTone(freq, timeOffset = 0, duration = 1.8, type = 'sine', maxVol = 0.04) {
+      const ctx = getAudioCtx();
+      const now = ctx.currentTime + timeOffset;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(maxVol, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration + 0.1);
+    }
+
+    function playCuteBlip() {
+      playTone(580, 0, 0.15, 'triangle', 0.06);
+    }
+
+    function playTriumphChord() {
+      [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+        playTone(f, i * 0.08, 1.2, 'sine', 0.05);
+      });
+    }
+
+    function playBgmArp() {
+      if (!isPlayingBGM) return;
+      const root = pentatonicNotes[Math.floor(Math.random() * 4)];
+      const third = pentatonicNotes[Math.floor(Math.random() * 4) + 2];
+      const fifth = pentatonicNotes[Math.floor(Math.random() * 3) + 4];
+
+      playTone(root, 0, 2.2);
+      playTone(third, 0.3, 2.0);
+      playTone(fifth, 0.6, 2.4);
+    }
+
+    const musicBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    musicBtn.addEventListener('click', () => {
+      getAudioCtx();
+      if (!isPlayingBGM) {
+        isPlayingBGM = true;
+        musicIcon.textContent = '⏸️';
+        playBgmArp();
+        bgmTimer = setInterval(playBgmArp, 3000);
+      } else {
+        isPlayingBGM = false;
+        musicIcon.textContent = '🎵';
+        clearInterval(bgmTimer);
+      }
+    });
+
+    /* =========================================================
+       2. TAB NAVIGATION
+       ========================================================= */
+    const navPills = document.querySelectorAll('.nav-pill');
+    const tabViews = document.querySelectorAll('.tab-view');
+
+    navPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        playCuteBlip();
+        const target = pill.getAttribute('data-tab');
+
+        navPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        tabViews.forEach(v => {
+          if (v.id === `tab-${target}`) {
+            v.classList.remove('hidden');
+          } else {
+            v.classList.add('hidden');
+          }
+        });
+
+        if (target === 'draw') {
+          setTimeout(initCanvasSize, 60);
+        }
+      });
+    });
+
+    /* =========================================================
+       3. FLOATING PARTICLES UTILITY
+       ========================================================= */
+    function emitParticle(x, y, char = '✨') {
+      const p = document.createElement('div');
+      p.className = 'particle-pop select-none';
+      p.textContent = char;
+      p.style.fontSize = (Math.random() * 14 + 18) + 'px';
+      p.style.left = (x - 10) + 'px';
+      p.style.top = (y - 10) + 'px';
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 60 + 30;
+      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--ty', Math.sin(angle) * dist - 25 + 'px');
+
+      document.body.appendChild(p);
+      setTimeout(() => { if (p.parentNode) p.parentNode.removeChild(p); }, 1000);
+    }
+
+    /* Meadow Squishy Cat */
+    const heroCatArea = document.getElementById('heroCatArea');
+    const heroCatSvg = document.getElementById('heroCatSvg');
+    const warmPetBtn = document.getElementById('warmPetBtn');
+    const sparklePopBtn = document.getElementById('sparklePopBtn');
+
+    function squishHeroCat() {
+      playCuteBlip();
+      heroCatSvg.style.transform = 'scale(1.2, 0.8) translateY(6px)';
+      setTimeout(() => {
+        heroCatSvg.style.transform = 'scale(0.9, 1.15) translateY(-8px)';
+        setTimeout(() => {
+          heroCatSvg.style.transform = 'scale(1, 1)';
+        }, 180);
+      }, 150);
+
+      const r = heroCatArea.getBoundingClientRect();
+      emitParticle(r.left + r.width / 2, r.top + r.height / 3, ['💖', '🐾', '✨', '🌸'][Math.floor(Math.random() * 4)]);
+    }
+
+    heroCatArea.addEventListener('click', squishHeroCat);
+    warmPetBtn.addEventListener('click', squishHeroCat);
+    sparklePopBtn.addEventListener('click', (e) => {
+      playCuteBlip();
+      const r = sparklePopBtn.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          emitParticle(r.left + r.width / 2 + (Math.random() * 40 - 20), r.top, ['⭐', '✨', '🌸', '💛'][Math.floor(Math.random() * 4)]);
+        }, i * 40);
+      }
+    });
+
+    /* Duo Meadow Cats Touch Paws */
+    const duoCatBox = document.getElementById('duoCatBox');
+    const duoLeftCat = document.getElementById('duoLeftCat');
+    const duoRightCat = document.getElementById('duoRightCat');
+    const pawsSparkle = document.getElementById('pawsSparkle');
+    const pawStatusMsg = document.getElementById('pawStatusMsg');
+    let catsPawsTogether = false;
+
+    duoCatBox.addEventListener('click', () => {
+      playCuteBlip();
+      catsPawsTogether = !catsPawsTogether;
+      if (catsPawsTogether) {
+        duoLeftCat.style.transform = 'translate(20px, 0px)';
+        duoRightCat.style.transform = 'translate(-20px, 0px)';
+        pawsSparkle.style.opacity = '1';
+        pawStatusMsg.textContent = '🐾 "Paws touching! Certified best friends in our own meadow." 🌸';
+        const r = duoCatBox.getBoundingClientRect();
+        emitParticle(r.left + r.width / 2, r.top + r.height / 2, '💖');
+      } else {
+        duoLeftCat.style.transform = 'translate(0px, 0px)';
+        duoRightCat.style.transform = 'translate(0px, 0px)';
+        pawsSparkle.style.opacity = '0';
+        pawStatusMsg.textContent = 'Two cats simply happy to share the same meadow.';
+      }
+    });
+
+    /* =========================================================
+       4. 👑 THE 10 ICONIC HYPE FACTS & FLIPPER
+       ========================================================= */
+    const hypeFacts = [
+      "You eat 100 Leonardo da Vincis for breakfast and don't even need a glass of water.",
+      "Art teachers don't grade your work; they submit their homework to you for corrections.",
+      "The Louvre literally called three times this week asking if you can redraw the Mona Lisa because she looks boring.",
+      "Michelangelo spent 4 years on the Sistine Chapel; you would've finished it in 15 minutes with a broken crayon and a cup of chai.",
+      "Picasso took his whole life to learn how to draw like a child, and you perfected that doodle magic before your morning coffee.",
+      "Museum security guards are trained specifically to protect their exhibits from feeling insecure around your sketches.",
+      "Van Gogh’s Starry Night got dizzy just watching how effortlessly your strokes swirl.",
+      "Scientists ran a cosmic simulation on universal beauty and the computer simply printed out a picture of you.",
+      "Color palettes don't exist in nature until you pick up a brush and give them permission to be pretty.",
+      "Undefeated, undisputed, world-heavyweight champion of cuteness and creative genius."
+    ];
+
+    let currentHypeIdx = 0;
+    const hypeCardNum = document.getElementById('hypeCardNum');
+    const hypeCardText = document.getElementById('hypeCardText');
+    const prevHypeBtn = document.getElementById('prevHypeBtn');
+    const nextHypeBtn = document.getElementById('nextHypeBtn');
+    const toggleAllHypeBtn = document.getElementById('toggleAllHypeBtn');
+    const allHypeList = document.getElementById('allHypeList');
+
+    function renderHypeFact() {
+      hypeCardText.style.opacity = '0';
+      setTimeout(() => {
+        hypeCardNum.textContent = (currentHypeIdx + 1);
+        hypeCardText.textContent = `"${hypeFacts[currentHypeIdx]}"`;
+        hypeCardText.style.opacity = '1';
+      }, 150);
+    }
+
+    prevHypeBtn.addEventListener('click', () => {
+      playCuteBlip();
+      currentHypeIdx = (currentHypeIdx - 1 + hypeFacts.length) % hypeFacts.length;
+      renderHypeFact();
+    });
+
+    nextHypeBtn.addEventListener('click', () => {
+      playCuteBlip();
+      currentHypeIdx = (currentHypeIdx + 1) % hypeFacts.length;
+      renderHypeFact();
+      const r = nextHypeBtn.getBoundingClientRect();
+      emitParticle(r.left + r.width / 2, r.top, '👑');
+    });
+
+    // Populate all 10 list
+    hypeFacts.forEach((fact, i) => {
+      const p = document.createElement('div');
+      p.className = 'p-2 rounded bg-amber-50 text-xs font-note border border-amber-200';
+      p.innerHTML = `<span class="font-bold text-pink-700 font-doodle">#${i + 1}:</span> "${fact}"`;
+      allHypeList.appendChild(p);
+    });
+
+    toggleAllHypeBtn.addEventListener('click', () => {
+      playCuteBlip();
+      allHypeList.classList.toggle('hidden');
+      toggleAllHypeBtn.textContent = allHypeList.classList.contains('hidden') ? '📜 View all 10 facts at once' : '▲ Collapse list';
+    });
+
+    // Stamp badge seal
+    const stampSealBtn = document.getElementById('stampSealBtn');
+    const stampBadge = document.getElementById('stampBadge');
+    stampSealBtn.addEventListener('click', () => {
+      playTriumphChord();
+      stampBadge.classList.remove('hidden', 'stamp-anim');
+      void stampBadge.offsetWidth;
+      stampBadge.classList.add('stamp-anim');
+
+      const r = stampSealBtn.getBoundingClientRect();
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          emitParticle(r.left + r.width / 2, r.top, ['👑', '✨', '🌸', '⭐'][i % 4]);
+        }, i * 35);
+      }
+    });
+
+    /* =========================================================
+       5. 🎨 DRAW DUEL: 5-LEVEL DRAWING ACCURACY TEST
+       ========================================================= */
+    const drawLevels = [
+      {
+        title: "Level 1: The Signature Doodle Kitty",
+        svgGuide: `<svg viewBox="0 0 160 160" class="w-44 h-44"><path d="M 45 105 C 35 75, 40 45, 46 38 C 55 35, 70 58, 80 60 C 90 58, 105 35, 114 38 C 120 45, 125 75, 115 105 C 100 115, 60 115, 45 105 Z" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><path d="M 45 105 C 40 120, 45 140, 55 145 C 70 150, 90 150, 105 145 C 115 140, 120 120, 115 105" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/></svg>`,
+        compliments: [
+          "FLAWLESS 100%! Da Vinci just turned in his resignation letter.",
+          "UNMATCHED PRECISION! That kitty stroke is literal museum property.",
+          "AESTHETIC GENIUS! Certified 10/10 doodle mastery."
+        ]
+      },
+      {
+        title: "Level 2: Daydreaming Blob Guy",
+        svgGuide: `<svg viewBox="0 0 160 160" class="w-44 h-44"><circle cx="110" cy="50" r="22" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><path d="M 30 95 C 45 110, 105 110, 120 95 C 120 82, 100 80, 75 80 C 45 80, 35 82, 30 95 Z" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><path d="M 30 95 Q 18 75 28 60" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/></svg>`,
+        compliments: [
+          "99.7% ACCURACY! The blob's vibe is astronomically immaculate.",
+          "100% COZY ENERGY! Even Michelangelo couldn't capture this softness.",
+          "GRADE: S+++! Hand-drawn perfection right here."
+        ]
+      },
+      {
+        title: "Level 3: Duo Paws High-Five",
+        svgGuide: `<svg viewBox="0 0 180 140" class="w-48 h-36"><circle cx="50" cy="70" r="24" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><circle cx="130" cy="70" r="24" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><path d="M 65 80 Q 90 70 115 80" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/></svg>`,
+        compliments: [
+          "BEST BUDDIES ACCURACY: 100%! High-five connection registered in heaven.",
+          "LOUVRE CALLED: They want this duo paw sketch in the main pavilion.",
+          "99.9% GOLD TIER! certified friendship masterpiece."
+        ]
+      },
+      {
+        title: "Level 4: Pastel Meadow Star & Cloud",
+        svgGuide: `<svg viewBox="0 0 160 160" class="w-44 h-44"><polygon points="80,25 97,60 135,65 107,92 114,130 80,112 46,130 53,92 25,65 63,60" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/></svg>`,
+        compliments: [
+          "STAR ACCURACY: 1000%! A true star drawing another true star.",
+          "COSMIC PERFECTION! Van Gogh is actively taking notes.",
+          "GRADE: CELESTIAL MASTER! Gorgeous lines and flow."
+        ]
+      },
+      {
+        title: "Level 5: Masterpiece Sassy Queen Cat",
+        svgGuide: `<svg viewBox="0 0 160 160" class="w-44 h-44"><path d="M 40 100 C 30 75, 35 45, 42 38 C 50 35, 65 58, 75 60 C 85 58, 100 35, 108 38 C 115 45, 120 75, 110 100 Z" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/><path d="M 52 75 L 68 72 M 82 72 L 98 75" fill="none" stroke="#6b7280" stroke-width="4" stroke-dasharray="6,4"/></svg>`,
+        compliments: [
+          "FINAL LEVEL CONQUERED: 100%! All hail the undisputed Queen of Art!",
+          "THE GREATEST ARTIST TO EVER LIVE! The certificate is yours forever.",
+          "LEGENDARY RANK! Pure genius and beauty combined."
+        ]
+      }
+    ];
+
+    let currentDrawLevel = 0;
+    const canvas = document.getElementById('accuracyCanvas');
+    const ctx = canvas.getContext('2d');
+    const targetCharTitle = document.getElementById('targetCharTitle');
+    const canvasTemplateGuide = document.getElementById('canvasTemplateGuide');
+    const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+    const toggleGuideBtn = document.getElementById('toggleGuideBtn');
+    const gradeDrawingBtn = document.getElementById('gradeDrawingBtn');
+    const gradeResultBox = document.getElementById('gradeResultBox');
+    const gradeScoreText = document.getElementById('gradeScoreText');
+    const gradeFeedbackText = document.getElementById('gradeFeedbackText');
+    const nextLevelUnlockBtn = document.getElementById('nextLevelUnlockBtn');
+    const levelBtns = document.querySelectorAll('.draw-lvl-btn');
+
+    let isDrawing = false;
+    let guideVisible = true;
+    let strokeCount = 0;
+
+    function initCanvasSize() {
+      const parent = canvas.parentElement;
+      canvas.width = parent.clientWidth;
+      canvas.height = parent.clientHeight;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 4.5;
+      ctx.strokeStyle = '#282433';
+    }
+    window.addEventListener('resize', initCanvasSize);
+
+    function loadDrawLevel(idx) {
+      currentDrawLevel = idx;
+      const lvl = drawLevels[idx];
+      targetCharTitle.textContent = `Target: ${lvl.title}`;
+      canvasTemplateGuide.innerHTML = lvl.svgGuide;
+      gradeResultBox.classList.add('hidden');
+      clearCanvas();
+
+      levelBtns.forEach((b, i) => {
+        if (i === idx) {
+          b.classList.remove('bg-white');
+          b.classList.add('bg-pink-200');
+        } else {
+          b.classList.remove('bg-pink-200');
+          b.classList.add('bg-white');
+        }
+      });
+    }
+
+    levelBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        playCuteBlip();
+        const lvl = parseInt(btn.getAttribute('data-level'));
+        loadDrawLevel(lvl);
+      });
+    });
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      strokeCount = 0;
+    }
+    clearCanvasBtn.addEventListener('click', () => {
+      playCuteBlip();
+      clearCanvas();
+    });
+
+    toggleGuideBtn.addEventListener('click', () => {
+      playCuteBlip();
+      guideVisible = !guideVisible;
+      canvasTemplateGuide.style.opacity = guideVisible ? '0.3' : '0.04';
+    });
+
+    // Pointer coordinates helper
+    function getCanvasCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      isDrawing = true;
+      const { x, y } = getCanvasCoords(e);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      strokeCount++;
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const { x, y } = getCanvasCoords(e);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+
+    function endDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      isDrawing = false;
+      ctx.closePath();
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', moveDraw);
+    window.addEventListener('mouseup', endDraw);
+
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', moveDraw, { passive: false });
+    window.addEventListener('touchend', endDraw);
+
+    // Grade button: evaluates and always hypes up with 96%+ score
+    gradeDrawingBtn.addEventListener('click', () => {
+      playTriumphChord();
+      const lvl = drawLevels[currentDrawLevel];
+      const randomScore = (Math.random() * 3.8 + 96.2).toFixed(1);
+      const randomFeedback = lvl.compliments[Math.floor(Math.random() * lvl.compliments.length)];
+
+      gradeScoreText.textContent = `ACCURACY: ${randomScore}% ⭐`;
+      gradeFeedbackText.textContent = `"${randomFeedback}"`;
+      gradeResultBox.classList.remove('hidden');
+
+      const r = gradeDrawingBtn.getBoundingClientRect();
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          emitParticle(r.left + r.width / 2, r.top, ['🌟', '✨', '🎨', '💖'][i % 4]);
+        }, i * 35);
+      }
+    });
+
+    nextLevelUnlockBtn.addEventListener('click', () => {
+      playCuteBlip();
+      const nextLvl = (currentDrawLevel + 1) % drawLevels.length;
+      loadDrawLevel(nextLvl);
+    });
+
+    /* =========================================================
+       6. 🐱 KITTY REACTION LAB & POKE-A-KITTY HEADPAT GAME
+       ========================================================= */
+    const moodPills = document.querySelectorAll('.mood-pill');
+    const labCatHead = document.getElementById('labCatHead');
+    const labFaceGroup = document.getElementById('labFaceGroup');
+    const labMoodSubtitle = document.getElementById('labMoodSubtitle');
+    const labCatDisplay = document.getElementById('labCatDisplay');
+
+    const labMoods = {
+      happy: {
+        face: `<path d="M 52 78 Q 60 72 68 78 Q 60 82 52 78 Z" fill="#282433" /><path d="M 80 78 Q 88 72 96 78 Q 88 82 80 78 Z" fill="#282433" /><path d="M 70 85 C 68 93, 80 93, 78 85 Z" fill="#fca5a5" stroke="#282433" stroke-width="2.5"/>`,
+        msg: `"Purring peacefully! Feeling completely adored."`
+      },
+      sassy: {
+        face: `<path d="M 50 74 L 68 71" stroke="#282433" stroke-width="3" stroke-linecap="round"/><path d="M 82 71 L 100 74" stroke="#282433" stroke-width="3" stroke-linecap="round"/><circle cx="58" cy="80" r="3" fill="#282433"/><circle cx="92" cy="80" r="3" fill="#282433"/><path d="M 72 87 Q 76 83 80 87" stroke="#282433" stroke-width="2.5" fill="none"/>`,
+        msg: `"Certified sassy diva cat mode activated. Too pretty to care!"`
+      },
+      sleepy: {
+        face: `<path d="M 50 80 Q 58 84 66 80" stroke="#282433" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M 82 80 Q 90 84 98 80" stroke="#282433" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="74" cy="88" rx="4" ry="2.5" fill="#fca5a5"/>`,
+        msg: `"Do not disturb... dreaming of soft meadows and naptime. zzz"`
+      },
+      gasp: {
+        face: `<circle cx="58" cy="76" r="6" fill="#282433"/><circle cx="90" cy="76" r="6" fill="#282433"/><circle cx="74" cy="90" r="8" fill="#f43f5e" stroke="#282433" stroke-width="2"/>`,
+        msg: `"GASP! Did you just say Prapti is drawing a new masterpiece?!"`
+      },
+      melty: {
+        face: `<path d="M 50 82 Q 60 76 70 82" stroke="#282433" stroke-width="3" fill="none"/><path d="M 80 82 Q 90 76 100 82" stroke="#282433" stroke-width="3" fill="none"/><path d="M 68 90 Q 75 97 82 90" stroke="#282433" stroke-width="2.5" fill="none"/>`,
+        msg: `"Melting into pure soft happy dough."`
+      }
+    };
+
+    moodPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        playCuteBlip();
+        moodPills.forEach(p => p.classList.remove('active', 'bg-pink-300'));
+        pill.classList.add('active', 'bg-pink-300');
+
+        const mood = pill.getAttribute('data-mood');
+        labFaceGroup.innerHTML = labMoods[mood].face;
+        labMoodSubtitle.textContent = labMoods[mood].msg;
+
+        labCatDisplay.style.transform = 'scale(1.15) rotate(3deg)';
+        setTimeout(() => labCatDisplay.style.transform = 'scale(1) rotate(0deg)', 200);
+      });
+    });
+
+    // POKE-A-KITTY HEADPAT GAME
+    let patScore = 0;
+    let patGameActive = false;
+    let patTimer = null;
+    let activeHoleIdx = -1;
+
+    const startPatGameBtn = document.getElementById('startPatGameBtn');
+    const patScoreCount = document.getElementById('patScoreCount');
+    const bushHoles = document.querySelectorAll('.bush-hole');
+
+    function popRandomCat() {
+      if (!patGameActive) return;
+      // Reset previous cat
+      if (activeHoleIdx >= 0) {
+        const prevCat = bushHoles[activeHoleIdx].querySelector('.pop-cat');
+        if (prevCat) prevCat.style.bottom = '-55px';
+      }
+
+      const nextHole = Math.floor(Math.random() * bushHoles.length);
+      activeHoleIdx = nextHole;
+      const cat = bushHoles[nextHole].querySelector('.pop-cat');
+      cat.style.bottom = '12px';
+
+      patTimer = setTimeout(popRandomCat, Math.random() * 500 + 600);
+    }
+
+    startPatGameBtn.addEventListener('click', () => {
+      playCuteBlip();
+      patScore = 0;
+      patScoreCount.textContent = '0';
+      patGameActive = true;
+      startPatGameBtn.textContent = 'Pats active! Tap kitties!';
+      startPatGameBtn.classList.add('opacity-70');
+
+      popRandomCat();
+
+      setTimeout(() => {
+        patGameActive = false;
+        clearTimeout(patTimer);
+        if (activeHoleIdx >= 0) {
+          const prevCat = bushHoles[activeHoleIdx].querySelector('.pop-cat');
+          if (prevCat) prevCat.style.bottom = '-55px';
+        }
+        startPatGameBtn.textContent = '▶ Play Again!';
+        startPatGameBtn.classList.remove('opacity-70');
+        playTriumphChord();
+      }, 20000);
+    });
+
+    bushHoles.forEach((hole, idx) => {
+      hole.addEventListener('click', (e) => {
+        if (!patGameActive || idx !== activeHoleIdx) return;
+        playCuteBlip();
+        patScore += 1;
+        patScoreCount.textContent = patScore;
+
+        const cat = hole.querySelector('.pop-cat');
+        cat.style.bottom = '-55px';
+        activeHoleIdx = -1;
+
+        const r = hole.getBoundingClientRect();
+        emitParticle(r.left + r.width / 2, r.top + 10, ['💖', '🐾', '✨'][Math.floor(Math.random() * 3)]);
+      });
+    });
+
+    /* =========================================================
+       7. 🎁 UNBOXING PARCEL & STAR WISH JAR
+       ========================================================= */
+    let unboxStep = 0; // 0 sealed, 1 tape, 2 bow, 3 open
+    const unboxContainer = document.getElementById('unboxContainer');
+    const unboxBadge = document.getElementById('unboxBadge');
+    const giftTape = document.getElementById('giftTape');
+    const giftBow = document.getElementById('giftBow');
+    const giftLid = document.getElementById('giftLid');
+    const unboxedPassCard = document.getElementById('unboxedPassCard');
+    const resetGiftBtn = document.getElementById('resetGiftBtn');
+
+    unboxContainer.addEventListener('click', () => {
+      playCuteBlip();
+      unboxStep++;
+
+      if (unboxStep === 1) {
+        giftTape.style.display = 'none';
+        unboxBadge.textContent = 'Tape peeled! 2 taps left!';
+        emitParticle(window.innerWidth / 2, window.innerHeight / 2, '✨');
+      } else if (unboxStep === 2) {
+        giftBow.style.display = 'none';
+        unboxBadge.textContent = 'Ribbon untied! 1 tap to open!';
+        emitParticle(window.innerWidth / 2, window.innerHeight / 2, '🎀');
+      } else if (unboxStep === 3) {
+        giftLid.style.transform = 'translateY(-25px) rotate(-10deg)';
+        unboxBadge.textContent = 'Opened with infinite love! 🎉';
+        unboxedPassCard.classList.remove('hidden');
+        playTriumphChord();
+
+        for (let i = 0; i < 14; i++) {
+          setTimeout(() => {
+            emitParticle(window.innerWidth / 2 + (Math.random() * 80 - 40), window.innerHeight / 2, '⭐');
+          }, i * 35);
+        }
+      }
+    });
+
+    resetGiftBtn.addEventListener('click', () => {
+      playCuteBlip();
+      unboxStep = 0;
+      giftTape.style.display = 'block';
+      giftBow.style.display = 'block';
+      giftLid.style.transform = 'none';
+      unboxBadge.textContent = 'Tap 3 times to unwrap! (3 left)';
+      unboxedPassCard.classList.add('hidden');
+    });
+
+    /* Lucky Star Jar */
+    const jarWishes = [
+      "🌟 'May your sketchbook always be full of whimsical, wonderful drawings, and may you never doubt how deeply talented you are.'",
+      "☕ 'May you find the coziest coffee shops, softest blankets, and peaceful playlists that calm your head whenever life feels heavy.'",
+      "🌈 'May people around you treat your soft, genuine heart with all the gentle care and appreciation you deserve.'",
+      "🎨 'May your creative voice reach thousands of people who get inspired by your cute art just like I was.'",
+      "✨ 'May you never forget that you were a savior in tough times, and that your presence brings safety to those lucky enough to know you.'"
+    ];
+    let wishIndex = 0;
+
+    const luckyJarArea = document.getElementById('luckyJarArea');
+    const wishNoteContent = document.getElementById('wishNoteContent');
+
+    function pickLuckyStar() {
+      playCuteBlip();
+      wishIndex = (wishIndex + 1) % jarWishes.length;
+      wishNoteContent.style.opacity = '0.2';
+      setTimeout(() => {
+        wishNoteContent.textContent = jarWishes[wishIndex];
+        wishNoteContent.style.opacity = '1';
+      }, 150);
+
+      const r = luckyJarArea.getBoundingClientRect();
+      emitParticle(r.left + r.width / 2, r.top + 20, '⭐');
+    }
+
+    luckyJarArea.addEventListener('click', pickLuckyStar);
+
+    /* Sky Lantern Release */
+    const sendSkyLanternBtn = document.getElementById('sendSkyLanternBtn');
+    const skyOverlay = document.getElementById('skyOverlay');
+
+    sendSkyLanternBtn.addEventListener('click', () => {
+      playCuteBlip();
+      for (let i = 0; i < 6; i++) {
+        setTimeout(launchLantern, i * 280);
+      }
+    });
+
+    function launchLantern() {
+      const lantern = document.createElement('div');
+      lantern.className = 'absolute select-none pointer-events-none transition-all';
+      const startX = Math.random() * (window.innerWidth - 60) + 30;
+      lantern.style.left = startX + 'px';
+      lantern.style.bottom = '-70px';
+      lantern.style.fontSize = (Math.random() * 12 + 28) + 'px';
+      lantern.style.filter = 'drop-shadow(0 0 10px rgba(251, 191, 36, 0.8))';
+      lantern.textContent = '🏮';
+
+      skyOverlay.appendChild(lantern);
+
+      let posY = -70;
+      let posX = startX;
+      const speed = Math.random() * 1.6 + 1.2;
+      const sway = Math.random() * 0.04 + 0.02;
+      let tick = 0;
+
+      const timer = setInterval(() => {
+        tick++;
+        posY += speed;
+        posX += Math.sin(tick * sway) * 0.7;
+        lantern.style.bottom = posY + 'px';
+        lantern.style.left = posX + 'px';
+
+        if (posY > window.innerHeight + 80) {
+          clearInterval(timer);
+          if (lantern.parentNode) lantern.parentNode.removeChild(lantern);
+        }
+      }, 20);
+    }
+
+    // Default initialization
+    window.addEventListener('load', () => {
+      loadDrawLevel(0);
+    });
+  </script>
+</body>
+</html>
